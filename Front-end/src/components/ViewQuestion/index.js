@@ -2,7 +2,7 @@ import React from 'react'
 import '../StackOverFlow/css/index.css'
 import Sidebar from '../StackOverFlow/Sidebar'
 import MainQuestion from './MainQuestion'
-
+import "./index.css";
 function index() {
     return (
         <div className='stack-index'>

@@ -3,6 +3,9 @@ import { Link } from 'react-router-dom'
 import { Bookmark } from '@mui/icons-material';
 import { History } from '@mui/icons-material';
 import { Avatar } from '@mui/material';
+import ReactQuill from 'react-quill';
+import 'react-quill/dist/quill.snow.css'
+import './index.css'
 
 function MainQuestion() {
     const [show, setShow] = useState(false);
@@ -28,9 +31,8 @@ function MainQuestion() {
 
                 <div className='all-questions'>
                     <div className='all-questions-container'>
-
                         <div className='all-questions-left'>
-                            <div className='all-questions-options'>
+                            <div className='all-options'>
                                 <p className="arrow">▲</p>
                                 <p className="arrow">0</p>
                                 <p className="arrow">▼</p>
@@ -48,6 +50,7 @@ function MainQuestion() {
                                     <p>Fatiha saht</p>
                                 </div>
                             </div>
+                            {/* comment  */}
                             <div className='comments'>
                                 <div className='comment'>
                                     <p> This is comment  -
@@ -58,9 +61,15 @@ function MainQuestion() {
                                 <p onClick={() => setShow(!show)}>Add a comment</p>
                                 {
                                     show && (<div className='title'>
-                                        <textarea style={{}}>
-                                            {/*     3 here 51  */}
-                                        </textarea>
+                                        <textarea type='text'
+                                            placeholder='add comment'
+                                            rows={5}
+                                            style={{
+
+                                            }}
+                                        ></textarea>
+
+                                        <button> Add Comment </button>
 
                                     </div>)
                                 }
@@ -68,7 +77,76 @@ function MainQuestion() {
                         </div>
                     </div>
                 </div>
+                {/* all comment  */}
+                <div className='all-questions'>
+                    <p> No answer</p>
+                    <div className='all-questions-container'>
+                        <div className='all-questions-left'>
+                            <div className='all-options'>
+                                <p className="arrow">▲</p>
+                                <p className="arrow">0</p>
+                                <p className="arrow">▼</p>
+                                <Bookmark />
+                                <History />
+                            </div>
+                        </div>
+
+
+                        <div className='question-answer'>
+                            <p> this is question body </p>
+                            <div className='author'>
+
+                                <small> asked "Timestamp"</small>
+                                <div className='auth-details'>
+                                    <Avatar />
+                                    <p>Fatiha saht</p>
+                                </div>
+                            </div>
+                            {/* comment  */}
+                            <div className='comments'>
+                                <div className='comment'>
+                                    <p> This is comment  -
+                                        <span>User name </span>
+                                        <small>Timestamp</small>
+                                    </p>
+                                </div>
+                                <p onClick={() => setShow(!show)}>Add a comment</p>
+                                {
+                                    show && (
+                                        <div className='title'>
+                                            <textarea type='text'
+                                                placeholder='add comment'
+                                                rows={5}
+                                                style={{
+
+                                                }}
+                                            />
+
+                                            <button> Add Comment </button>
+                                        </div>
+                                    )}
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
+
+
+            <div className='main-answer'>
+                <h3 style={{
+                    fontSize: '22px',
+                    margin: "10px 0",
+                    fontWeight: '400'
+                }}> Your Answer </h3>
+                <ReactQuill className='react-quill' theme='snow'
+                    style={{
+                        height: '200px'
+                    }} />
+            </div>
+            <button style={{
+                marginTop: "80px",
+                maxWidth: "fit-content",
+            }}> Post your answer</button>
         </div>
     )
 }
