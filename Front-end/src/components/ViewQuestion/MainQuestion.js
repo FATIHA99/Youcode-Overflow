@@ -78,7 +78,7 @@ function MainQuestion() {
                     </div>
                 </div>
                 {/* all comment  */}
-                <div className='all-questions'>
+                {/* <div className='all-questions'>
                     <p> No answer</p>
                     <div className='all-questions-container'>
                         <div className='all-questions-left'>
@@ -102,7 +102,7 @@ function MainQuestion() {
                                     <p>Fatiha saht</p>
                                 </div>
                             </div>
-                            {/* comment  */}
+                         
                             <div className='comments'>
                                 <div className='comment'>
                                     <p> This is comment  -
@@ -128,7 +128,7 @@ function MainQuestion() {
                             </div>
                         </div>
                     </div>
-                </div>
+                </div> */}
             </div>
 
 

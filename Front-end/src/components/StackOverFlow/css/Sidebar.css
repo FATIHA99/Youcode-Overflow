@@ -51,12 +51,12 @@ a :hover {
 }
 
 .link-tag:hover{
-    border-right :5px solid rgba(245 ,162,9) ;
+    border-right :5px solid rgb(28, 129, 206) ;
 }
 .link-tag >.MuiSvgIcon-root{
     font-size :18px;
     margin-right: 5px;
-    color: rgba(245 ,162,9) ;
+    color: rgb(28, 129, 206) ;
 }
 .tags{
     display : flex;

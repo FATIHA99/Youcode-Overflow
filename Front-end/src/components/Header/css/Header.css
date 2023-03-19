@@ -39,6 +39,10 @@ header {
     width: 100vw;
 }
 
+.logo{
+width: 800px;
+height: 60px;
+}
 .header-container {
     display: flex;
     flex-direction: row;
