@@ -1,7 +1,7 @@
 import React from 'react'
 import './css/AllQuestion.css'
 import { Link } from 'react-router-dom'
-import { Avatar } from '@mui/material'
+// import { Avatar } from '@mui/material'
 import './css/AllQuestion.css'
 
 
@@ -10,7 +10,7 @@ function AllQuestion() {
         <div className='all-questions'>
             <div className='all-questions-container' >
                 {/* <div className='all-questions' > */}
-                    
+{/*                     
                     <div className='all-questions-left' >
                         <div className='all-options' >
                             <div className='all-option' >
@@ -63,7 +63,7 @@ function AllQuestion() {
                             </div>
                         </div>
 
-                    </div>
+                    </div> */}
 
 
 

@@ -3,7 +3,8 @@ import Header from './components/Header/Header'
 import StackOverflow from './components/StackOverFlow'
 // import Question from './components/Add-Question/Question';
 import ViewQuestion from './components/ViewQuestion'
-import Auth from './components/Auth'
+import RegisterForm from './components/Auth/RegisterForm'
+import LoginForm from './components/Auth/LoginForm'
 import {
   BrowserRouter as Router, Route, Routes, Navigate
 } from 'react-router-dom'
@@ -19,37 +20,33 @@ function App() {
   const user = useSelector(selectUser)
   const dispatch = useDispatch()
 
-  useEffect(() => {
-    auth.onAuthStateChanged((authUser) => {
-      if (authUser) {
-        dispatch(
-          login({
-            uid: authUser.uid,
-            photo: authUser.photoURL,
-            displayName: authUser.displayName,
-            email: authUser.email
-          })
-        )
-      } else {
-        dispatch(logout())
-      }
-    });
-  }, [dispatch]);
+  // useEffect(() => {
+  //   auth.onAuthStateChanged((authUser) => {
+  //     if (authUser) {
+  //       dispatch(
+  //         login({
+  //           uid: authUser.uid,
+  //           photo: authUser.photoURL,
+  //           displayName: authUser.displayName,
+  //           email: authUser.email
+  //         })
+  //       )
+  //     } else {
+  //       dispatch(logout())
+  //     }
+  //   });
+  // }, [dispatch]);
 
 
 
-  const PrivateRoute = ({ element: Element, ...rest }) => (
-    <Route
-      {...rest}
-      element={user ? <Element /> : (
-        <Navigate
-          to={'/auth'}
-
-
-        />
-      )}
-    />
-  );
+  // const PrivateRoute = ({ element: Element, ...rest }) => (
+  //   <Route
+  //     {...rest}
+  //     element={user ? <Element /> : (
+  //       <Navigate to={'/auth'}/>
+  //     )}
+  //   />
+  // );
 
 
 
@@ -58,7 +55,8 @@ function App() {
       <Router>
         <Header />
         <Routes>
-          <Route path='/' element={<Auth />} />
+          <Route path='/' element={<LoginForm />} />
+          <Route path='/register' element={<RegisterForm />} />
           <Route path='/home' element={<StackOverflow />} />
           <Route path='/add-question' element={<Question />} />
           {/* <PrivateRoute path='/add-question' element={<Question />} /> */}
