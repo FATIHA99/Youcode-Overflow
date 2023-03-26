@@ -1,4 +1,5 @@
 const Question = require('../models/Questions')
+const fs = require('fs');
 
 function displayQuestion(req, res) {
     Question.find()
@@ -47,12 +48,42 @@ function addQuestion(req, res) {
       });
   }
 
-function deleteQuestion(req, res) {
-    const id = req.params.id
-    Question.findByIdAndRemove(id)
-        .then((e) => { res.send( 'question removed') })
-        .catch((e) => { res.send(e) })
-}
+// function deleteQuestion(req, res) {
+//     const id = req.params.id
+//     Question.findByIdAndRemove(id)
+//         .then((e) => { 
+//           res.send( 'question removed') 
+//         })
+//         .catch((e) => { res.send(e) })
+// }
+
+
+const deleteQuestion = async (req, res) => {
+  try {
+    const question = await Question.findById(req.params.id);
+    if (!question) {
+      return res.status(404).json({ msg: 'Question not found' });
+    }
+
+    // Delete the image file from public folder
+    if (question.image) {
+      const imagePath = `./public/images/${question.image}`;
+      fs.unlink(imagePath, (err) => {
+        if (err) {
+          console.error(err);
+        }
+        console.log(`${question.image} has been deleted from public folder`);
+      });
+    }
+
+    await question.deleteOne()
+
+    res.json({ msg: 'Question removed' });
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Server Error');
+  }
+};
 
 const getOneQuestion = async (req, res) => {
     const { id } = req.params

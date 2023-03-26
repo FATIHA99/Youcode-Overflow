@@ -74,7 +74,7 @@ export default function RecipeReviewCard() {
 
   React.useEffect(() => {
     Display()
-  }, [])
+  }, [UserQuestions])
   return (
     <>
       {UserQuestions.map((uq) => (

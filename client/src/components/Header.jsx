@@ -20,7 +20,7 @@ function Header(props) {
 
                 localStorage.removeItem('jwt_info')
                 localStorage.removeItem('ID')
-                localStorage.removeItem('username')
+                localStorage.removeItem('USERNAME')
                 navigate('/')
             })
             .catch()
