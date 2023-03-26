@@ -10,6 +10,9 @@ let question = new mongoose.Schema({
         default : Date.now(),
     },
     user: Object,
+    image : {
+        type : String
+    }
     // comment_id: {
     //     type: mongoose.Schema.Types.ObjectId,
     //     ref: 'Comments'

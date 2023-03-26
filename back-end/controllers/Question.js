@@ -6,13 +6,46 @@ function displayQuestion(req, res) {
         .catch()
 }
 
+function displayQuestionOfOneUser(req, res) {
+    const userId = req.params.id;
+    Question.find({ user: userId })
+      .then((questions) => { 
+        res.send(questions); 
+      })
+      .catch((err) => {
+        console.log(err);
+        res.status(500).send("Error retrieving questions");
+      });
+  }
+
+// function addQuestion(req, res) {
+//     const { body } = req
+//     const img = req.file.filename
+//     Question.create({ ...body,image : img })
+//         .then((e) => { res.json({ message: 'Question added successfully' }) })
+//         .catch((error) => { res.send(error) })
+// }
+
 
 function addQuestion(req, res) {
-    const { body } = req
-    Question.create({ ...body })
-        .then((e) => { res.json({ message: 'Question added successfully' }) })
-        .catch((error) => { res.send(error) })
-}
+    const { body, file } = req;
+  
+    if (!file) {
+      return res.status(400).json({ message: "No image file attached" });
+    }
+  
+    Question.create({ ...body, image: file.filename })
+      .then((question) => {
+        res.status(201).json({
+          message: "Question added successfully",
+          question: question,
+        });
+      })
+      .catch((error) => {
+      
+        res.status(500).json({ message: "Error adding question" });
+      });
+  }
 
 function deleteQuestion(req, res) {
     const id = req.params.id
@@ -40,7 +73,7 @@ function updateQuestion(req, res) {
     Question.findById(id)
         .then((e) => {
             if (e) {
-                console.log(e.title)
+             
                 const updateData = { $set: { title, body,language } }
              
                 Question.updateOne({ _id: id }, updateData)
@@ -56,4 +89,4 @@ function updateQuestion(req, res) {
 
 
 
-module.exports = { displayQuestion, addQuestion, deleteQuestion, updateQuestion, getOneQuestion }
+module.exports = { displayQuestion,displayQuestionOfOneUser, addQuestion, deleteQuestion, updateQuestion, getOneQuestion }

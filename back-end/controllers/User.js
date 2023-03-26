@@ -15,7 +15,7 @@ const createUser = async (req, res) => {
  
     if (chekemail){
     return res.status(400).json({
-        error: 'Email ealrdy exist'
+        error: 'Email already exist'
     })
     } else {
         const user = await User.create({
@@ -29,7 +29,7 @@ const createUser = async (req, res) => {
             from: process.env.EMAIL,
             to: email,
             subject: " Account verification ",
-            html: `<p>cliquer sur ce <a href="http://localhost:8080/verify/${token}">lien</a> pour vérifier votre a compte</p>`
+            html: `<p>cliquer sur ce <a href="http://localhost:8080/auth/verify/${token}">lien</a> pour vérifier votre a compte</p>`
         })
         try {
 
@@ -47,7 +47,7 @@ const login = async (req, res) => {
     const user = await User.findOne({ email: req.body.email })
     if (!user)
         return res.status(400).json({
-            error: 'Email Not Found'
+            error: 'User Not Found'
         })
 
     if (user.confirmed === false)
@@ -63,7 +63,7 @@ const login = async (req, res) => {
     const password = await bcrypt.compare(req.body.password, user.password)
     if (!password)
         return res.status(400).json({
-            error: 'Password Not Found'
+            error: 'Password Wrong'
         })
 
 
@@ -118,9 +118,13 @@ const resetpassword = async (req, res) => {
         .catch(() => { res.send('not update') })
 }
 
-const getUsers = (req, res) => {
-    User.find({ role: 'client' }).then((e) => {
-        res.send(e)
+const getUser = (req, res) => {
+    const{id}= req.params
+
+    User.find({ _id: id })
+    .then((e) => {
+     
+        res.send(e[0].username)
     })
 }
 
@@ -145,4 +149,4 @@ const signout = (req, res) => {
 }
 
 
-module.exports = { createUser, login, signout, forgetpassword, resetpassword, verify, banieCompte, getUsers }
+module.exports = { createUser, login, signout, forgetpassword, resetpassword, verify, banieCompte, getUser }

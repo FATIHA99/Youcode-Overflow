@@ -3,7 +3,7 @@ import Stars from '@mui/icons-material/Stars';
 import Public from '@mui/icons-material/Public';
 import Work from '@mui/icons-material/Work';
 import { Link } from 'react-router-dom'
-import './css/Sidebar.css'
+import './Sidebar.css'
 
 function Sidebar() {
     return (
@@ -11,7 +11,7 @@ function Sidebar() {
             <div className='sidebar-container'>
                 <div className='sidebar-options'>
                     <div className='sidebar-option'>
-                        <Link>Home </Link>
+                        <Link to='/questions'>Home </Link>
                     </div>
 
                     <div className='sidebar-option'>
@@ -22,10 +22,9 @@ function Sidebar() {
                                 <Link> Question</Link>
                             </div>
                             <div className='tags'>
-                                <p>Tags</p>
-                                <p>Users</p>
+                            <Link to='user_questions'> Our Questions </Link>
+                            <Link to='/add_questions'> Add question </Link>
                             </div>
-
                         </div>
 
                     </div>
