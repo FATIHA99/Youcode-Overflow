@@ -33,7 +33,7 @@ function Sidebar() {
                         <div className='link'>
                             <div className='link-tag'>
                                 <Stars />
-                                <Link> Explore Collectives</Link>
+                                <Link> Collectives</Link>
                             </div>
                         </div>
                     </div>

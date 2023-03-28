@@ -9,6 +9,7 @@ import Card from './components/Card'
 import AddQuestion from './components/Forms/AddQuestion'
 import UserQuestion from './components/UserQuestions'
 import ResetPassword from './components/ResetPassword';
+import QuestionOverView from './components/QuestionOverView';
 
 function App() {
   return (
@@ -27,6 +28,7 @@ function App() {
           <Route path='/questions' element={<Card/>} />
           <Route path='/add_questions' element={<AddQuestion />} />
           <Route path='/user_questions' element={<UserQuestion />} />
+          <Route path='/question_over_view' element={<QuestionOverView />} />
         </Route>
 
       </Routes>

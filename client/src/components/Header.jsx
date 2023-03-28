@@ -8,6 +8,7 @@ import { MDBBtn } from 'mdb-react-ui-kit';
 import LogoutIcon from '@mui/icons-material/Logout';
 import axios from 'axios' 
 import {toast, ToastContainer} from 'react-toastify'
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 
 function Header(props) {
     const API_URL ='http://localhost:8080'
@@ -46,12 +47,12 @@ function Header(props) {
                 </div>
                 <div className='header-right'>
                     <div className='header-right-container'>
-                        <span style={{display: 'flex', }}>
-                            <Avatar />
-                            <h3 style={{margin:6 ,  textTransform: 'uppercase' , fontSize:'bold' }}> {props.username.replace(/"/g, '')}</h3>
+                        <span style={{display: 'flex' ,fontFamily:'fantasy' }}>
+                            <AccountCircleIcon style ={{marginTop:2}} fontSize='large' color="primary"/>
+                            <h3 style={{margin:3 ,  textTransform: 'uppercase' , fontSize:'bold' , color:'#1976D2' }}> {props.username.replace(/"/g, '')}</h3>
                         </span>
   
-                        <Link onClick={logout} className='header-left ms-5' >
+                        <Link  onClick={logout} className='header-left ms-5 text-info' >
                         <LogoutIcon/>
                             </Link>
                   

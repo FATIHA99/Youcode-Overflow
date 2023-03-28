@@ -12,8 +12,8 @@ import 'mdb-react-ui-kit/dist/css/mdb.min.css';
 import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
 import { ToastContainer, toast } from "react-toastify";
-import ForgotPassword from '../assets/ForgotPassword.gif'
-function forgetPassword() {
+import ForgotPassword from '../assets/ForgotPassword.gif';
+ function ForgetPassword() {
   const navigate = useNavigate()
   const API_URL = 'http://localhost:8080'
 
@@ -75,4 +75,4 @@ function forgetPassword() {
   )
 }
 
-export default forgetPassword
+export default ForgetPassword
