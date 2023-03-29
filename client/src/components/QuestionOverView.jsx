@@ -11,7 +11,12 @@ import Typography from '@mui/material/Typography';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import axios from 'axios'
-
+import Collapse from '@mui/material/Collapse';
+import QuestionAnswerIcon from '@mui/icons-material/QuestionAnswer';
+import { MDBTextArea } from 'mdb-react-ui-kit'
+import { MDBBtn } from 'mdb-react-ui-kit';
+import MapsUgcIcon from '@mui/icons-material/MapsUgc';
+import { ToastContainer, toast } from "react-toastify";
 
 const ExpandMore = styled((props) => {
   const { expand, ...other } = props;
@@ -32,23 +37,41 @@ export default function QuestionOverView(props) {
 
   // const [num, setnum] = React.useState("#" + ((1 << 24) * Math.random() | 0).toString(16).padStart(6, "0"));
 
-  function randomColor(){
+  const [expanded, setExpanded] = React.useState(false);
+  const [expand, setExpand] = React.useState(false);
+
+  const [showComment, setShowComment] = React.useState(null)
+  const [currentCard, setCurrentCard] = React.useState(null)
+
+  function randomColor() {
     return `#${Math.floor(Math.random() * 16777215).toString(16)}`
   }
+
   const API_URL = 'http://localhost:8080'
   const [answers, setAnswers] = React.useState([])
   const id = props.info._id;
-  const [expanded, setExpanded] = React.useState(true);
-  const handleExpandClick = () => {
-    setExpanded(!expanded);
+  const user = localStorage.getItem('ID').replace(/"/g, '');
+  const [commentsData, setCommentData] = React.useState([])
+
+  const handleExpandClick = (y) => {
+    setExpanded(true);
+    setExpand(false);
+    setCurrentCard(y)
   };
 
-  const [username, setUsername] = React.useState('')
+  const handleClick =  (i, id) => {
+   
+     setExpand(true);
+    setExpanded(false);
+    setShowComment(i)
+    DisplayComment(id)
+  };
+
 
   function getUser(id) {
     return axios.get(`${API_URL}/auth/user/${id}`)
       .then((response) => {
-        setUsername(response.data)
+        // setUsername(response.data)
         return response.data;
       })
       .catch((error) => {
@@ -61,21 +84,37 @@ export default function QuestionOverView(props) {
       const answers = await axios.get(`${API_URL}/answer/question/${id}`);
       const answ = answers.data;
       const AnswerWithUser = [];
-
       for (const a of answ) {
         const user = await getUser(a.user);
         AnswerWithUser.push({ ...a, user });
       }
-
       setAnswers(AnswerWithUser);
     } catch (error) {
       console.log(error);
     }
 
   }
+
+  const DisplayComment = async (id) => {
+    try {
+      const response = await axios.get(`${API_URL}/comment/${id}`);
+      const allComments = response.data
+      const commentWithUser = []
+
+      for (const c of allComments) {
+        const user = await getUser(c.user);
+        commentWithUser.push({ ...c, user });
+      }
+      setCommentData(commentWithUser);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+
   React.useEffect(() => {
     displayAnswers()
-  }, [answers])
+  }, [])
 
 
   function firstLetter(str) {
@@ -85,16 +124,42 @@ export default function QuestionOverView(props) {
     });
     return initials
   }
+  const [comments, setComment] = React.useState({
+    comment: '',
+    question_id: '',
+    user,
+  })
+  const handleChange = (e) => {
+    setComment({ ...comments, [e.target.id]: e.target.value })
+  }
 
+  const SubmitComment = (event, e) => {
+    event.preventDefault();
+    setComment({ ...comments, answer_id: e._id });
+    const comment = {
+      comment: comments.comment,
+      answer_id: e._id,
+      user,
+    }
 
-
-
+    if (comments.comment === '') { toast.warning('please fill all  fields ') }
+    else {
+      axios.post(`${API_URL}/comment/add`, comment)
+        .then((e) => {
+          toast.success('comment posted ')
+          setExpanded(false)
+        })
+        .catch((err) => {
+          console.log(err)
+        })
+    }
+  }
 
   return (
-    <Card sx={{ maxWidth: 945, marginTop: 10 }}>
+    <Card sx={{ width: 945, marginTop: 10 }}>
       <CardHeader
         avatar={
-          <Avatar sx={{ bgcolor:randomColor()}} aria-label="recipe">
+          <Avatar sx={{ bgcolor: randomColor() }} aria-label="recipe">
             {firstLetter(props.info.user)}
           </Avatar>
         }
@@ -106,14 +171,24 @@ export default function QuestionOverView(props) {
         title={props.info.user}
         subheader={props.info.created_at}
       />
-      <CardMedia
-        component="img"
-        height="194"
-
-        image={props.info.image ? 'http://localhost:8080/images/' + props.info.image : ''}
-        alt="Paella "
-      />
       <CardContent>
+        <Typography fontSize={20} variant="body2" style={{color : "#3265B9"}}>
+           Technologie : {props.info.language}
+        </Typography>
+        <Typography fontSize={20} variant="body2" style={{color : "#3265B9"}}>
+          Title : {props.info.title}
+        </Typography>
+      </CardContent>
+
+      <CardContent>
+        <CardMedia
+          component="img"
+          height="194"
+
+          image={props.info.image ? 'http://localhost:8080/images/' + props.info.image : ''}
+          alt="Paella "
+        />
+
         <Typography variant="body2" color="text.secondary">
           {props.info.body}
         </Typography>
@@ -122,35 +197,94 @@ export default function QuestionOverView(props) {
         <IconButton aria-label="add to favorites">
           <FavoriteIcon />
         </IconButton>
-
-
-
-        <Typography variant="body2" color="text.secondary">
+       
+      </CardActions>
+       <Typography variant="body2" color="text.secondary" style={{marginLeft : 20}}>
           All Answers
         </Typography>
-      </CardActions>
-      < >
+    
         <CardContent >
-          {answers.map((e,i) => (
-            <Card sx={{ maxWidth: 945, marginTop: 2 }} style={{ backgroundColor: '#FEFAF4' }} key={i}>
 
+          {answers.map((e, i) => {
+            return (
+              <Card sx={{ maxWidth: 945, marginTop: 2 }} style={{ backgroundColor: '#FEFAF4' }} key={i}>
+                <CardHeader
+                  avatar={
+                    <Avatar sx={{ bgcolor: randomColor() }} aria-label="recipe">
+                      {firstLetter(e.user)}
+                    </Avatar>
+                  }
+                  title={e.user}
+                  subheader={e.created_at}
+                />
+                <Typography style={{ marginLeft: 80, fontSize: 16, color: 'gray' }} paragraph>
+                  {e.answer}
+                </Typography>
 
-              <CardHeader
-                avatar={
-                  <Avatar sx={{ bgcolor:randomColor() }} aria-label="recipe">
-                    {firstLetter(e.user)}
-                  </Avatar>
-                }
-                title={e.user}
-                subheader={e.created_at}
-              />
-              <Typography style={{ marginLeft: 80, fontSize: 16, color: 'gray' }} paragraph>
-                {e.answer}
-              </Typography>
-            </Card>
-          ))}
+                <CardActions disableSpacing>
+                  <MDBBtn
+                    expand={expand}
+                    onClick={() =>handleClick(i, e._id)}
+                    aria-expanded={expand}
+                    aria-label="show more "
+                    color='link'
+                    className='mt-1' > show all comments  </MDBBtn>
+                    
+
+                  <ExpandMore
+                    expand={expanded}
+                    onClick={() =>  handleExpandClick(i)}
+                    aria-expanded={expanded}
+                    aria-label="show more"
+                  >
+                    <MapsUgcIcon />
+                  </ExpandMore>
+
+                </CardActions>
+
+               { (expand==true) ? <Collapse in={expand && showComment == i} timeout="auto" unmountOnExit>
+                  <CardContent>
+                    {commentsData.map((e) => {
+                      return (
+                        <Card sx={{ maxWidth: 945, marginTop: 2 }} style={{ backgroundColor: '#FEF2E0' }} key={e._id}>
+                          <CardHeader
+                            avatar={
+                              <Avatar sx={{ bgcolor: randomColor() }} aria-label="recipe">
+                                {firstLetter(e.user)}
+                              </Avatar>
+                            }
+                            action={
+                              <IconButton aria-label="settings">
+                                <MoreVertIcon />
+                              </IconButton>
+                            }
+                            title={e.user}
+                            subheader={e.created_at}
+                          />
+                          <Typography style={{ marginLeft: 80 }} paragraph>  {e.comment} </Typography>
+                        </Card>
+                      )
+                    })}
+                  </CardContent>
+                </Collapse>:""}
+{ (expanded==true) ? 
+               <Collapse in={expanded && currentCard == i} timeout="auto" unmountOnExit>
+                  <CardContent>
+                    <form onSubmit={(event) => SubmitComment(event, e)} key={e._id}>
+                      <Typography style={{ marginLeft: 10 }}>
+                        <Typography paragraph>  Add Comment</Typography>
+                        <MDBTextArea onChange={handleChange} label='Add Comment' id='comment' rows={4} />
+                        {/* <MDBTextArea value={e._id} label='Add Comment' id='comment' rows={4} /> */}
+                        <MDBBtn type='submit' style={{ backgroundColor: '#706E6B' }} color='dark' className='mt-1' > Send  Comment  </MDBBtn>
+                      </Typography>
+                    </form>
+                  </CardContent>
+                </Collapse>:""}
+              </Card>
+            )
+          })}
         </CardContent>
-      </>
+     
     </Card>
   );
 }

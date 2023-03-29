@@ -9,14 +9,15 @@ let question = new mongoose.Schema({
         type: Date,
         default : Date.now(),
     },
-    user: Object,
+    // user: Object,
+    user: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User",
+      },  
     image : {
         type : String
     }
-    // comment_id: {
-    //     type: mongoose.Schema.Types.ObjectId,
-    //     ref: 'Comments'
-    // }
+
 })
 const Question = mongoose.model('Questions', question)
 module.exports = Question

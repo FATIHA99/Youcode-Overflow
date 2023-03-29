@@ -6,6 +6,18 @@ function displayAnswer(req, res) {
         .catch()
 }
 
+function displayAnswersofOneQuestion(req,res){
+    const {id} = req.params
+    Answer.find({ question_id: id })
+      .then((response) => { 
+        res.send(response); 
+      })
+      .catch((err) => {
+        console.log(err);
+        res.status(500).send("Error retrieving answers ");
+      });
+
+}
 
 function addAnswer(req, res) {
     const { body } = req
@@ -56,4 +68,4 @@ function updateAnswer(req, res) {
 
 
 
-module.exports = { displayAnswer, addAnswer, deleteAnswer, updateAnswer, getOneAnswer }
+module.exports = { displayAnswer, addAnswer, deleteAnswer, updateAnswer, getOneAnswer,displayAnswersofOneQuestion }

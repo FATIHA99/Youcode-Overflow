@@ -15,10 +15,29 @@ import axios from 'axios'
 import { ToastContainer, toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 
+import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
+// import Typography from '@mui/material/Typography';
+import Modal from '@mui/material/Modal';
+import ChildModal from './Forms/ChildModal'
+const style = {
+  position: 'absolute',
+  top: '50%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
+  width: 400,
+  bgcolor: 'background.paper',
+  border: '2px solid #000',
+  boxShadow: 24,
+  p: 4,
+};
+
 const ExpandMore = styled((props) => {
   const { expand, ...other } = props;
-  return <IconButton {...other} />;
 
+  
+  return <IconButton {...other} />;
+  
 })(({ theme, expand }) => ({
   transform: !expand ? 'rotate(0deg)' : 'rotate(180deg)',
   marginLeft: 'auto',
@@ -29,6 +48,9 @@ const ExpandMore = styled((props) => {
 
 export default function RecipeReviewCard() {
   const [expanded, setExpanded] = React.useState(false);
+  const [open, setOpen] = React.useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
 
   const handleExpandClick = () => {
     setExpanded(!expanded);
@@ -79,10 +101,8 @@ export default function RecipeReviewCard() {
     <>
       {UserQuestions.map((uq) => (
         
-        
-        <Card sx={{ width: 945, marginTop: 4 }}>
+        <Card sx={{ width: 945, marginTop: 10 }}>
           <ToastContainer autoClose={400} position="bottom-right" />
-
           <CardHeader
             action={
               <IconButton aria-label="settings" onClick={(e) => deleteQuestion(uq._id, e)} >
@@ -111,9 +131,22 @@ export default function RecipeReviewCard() {
           </CardContent>
 
           <CardActions disableSpacing>
-            <IconButton aria-label="add to favorites">
+            <IconButton onClick={handleOpen}  aria-label="add to favorites">
               <EditIcon />
             </IconButton>
+
+            <Modal
+  open={open}
+  onClose={handleClose}
+  aria-labelledby="parent-modal-title"
+  aria-describedby="parent-modal-description"
+>
+  <Box sx={{ ...style, width: 400 }}>
+  
+    <ChildModal />
+  </Box>
+</Modal>
+
           
             <ExpandMore
               expand={expanded}

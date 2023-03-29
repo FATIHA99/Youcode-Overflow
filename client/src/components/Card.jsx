@@ -46,6 +46,10 @@ export default function RecipeReviewCard() {
   const [expanded, setExpanded] = React.useState(false);
   const [currentCard, setCurrentCard] = useState(null)
 
+    // MEMO
+    // const QuestionOverViewMemo = React.useMemo(() => <QuestionOverView info={viewInfo}  />, [viewInfo])
+
+
   const handleExpandClick = (i) => {
     setExpanded(!expanded);
     setCurrentCard(i)
@@ -59,11 +63,11 @@ export default function RecipeReviewCard() {
 
 
   const [answerInfo, setAnswer] = React.useState({
-    answer: '',
+    comment: '',
     question_id: '',
     user,
-
   })
+
   const handleChange = (e) => {
     setAnswer({ ...answerInfo, [e.target.id]: e.target.value })
   }
@@ -77,11 +81,7 @@ export default function RecipeReviewCard() {
       answer: answerInfo.answer,
       question_id: q._id,
       user,
-
     }
-
-    console.log(answer);
-
 
     if (answerInfo.answer === '') {
 
@@ -140,14 +140,15 @@ export default function RecipeReviewCard() {
     });
     return initials
   }
-  function handleView(data) {
-    setView(true);
-    setViewInfo(data)
-    console.log(viewInfo)
-  }
+
+  // function handleView(data) {
+  //   setView(true);
+  //   setViewInfo(data)
+  //   console.log(viewInfo)
+  // }
   React.useEffect(() => {
     Display()
-  }, [AllQuestions])
+  }, [])
 
   return (
     <>
@@ -237,16 +238,13 @@ export default function RecipeReviewCard() {
                       <Typography>
                         <MDBBtn type='submit' className='mt-1' color='secondary'> Send Answer </MDBBtn>
                       </Typography>
-
                     </form>
-
                   </CardContent>
                 </Collapse>
               </Card>
             ))}</>
-        ) : (<QuestionOverView info={viewInfo} />)
+        ) : <QuestionOverView info={viewInfo}  />
       }
-
     </>
   );
 

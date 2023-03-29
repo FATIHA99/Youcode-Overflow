@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
+import { BrowserRouter as Router, Route, Routes, useParams } from 'react-router-dom'
 import Login from './components/Login'
 import Register from './components/Register'
 import ForgetPassword from './components/ForgetPassword'
@@ -28,12 +28,23 @@ function App() {
           <Route path='/questions' element={<Card/>} />
           <Route path='/add_questions' element={<AddQuestion />} />
           <Route path='/user_questions' element={<UserQuestion />} />
-          <Route path='/question_over_view' element={<QuestionOverView />} />
+          <Route path='/question_over_view/:id' element={<QuestionOverView />} />
+          <Route path="/test/:id" element={<Test />} />
         </Route>
 
       </Routes>
     </Router>
   );
+}
+
+function Test() {
+  const {id} = useParams()
+  console.log('====================================');
+  console.log(id);
+  console.log('====================================');
+  return (
+    <h1>hello there</h1>
+  )
 }
 
 export default App;

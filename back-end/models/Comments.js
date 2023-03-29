@@ -6,10 +6,10 @@ const comment = new mongoose.Schema({
     type: Date,
     default: Date.now(),
   },
-  question_id: {
+  answer_id: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "Questions",
-  },
+    ref: "Answers",
+  },  
   user: Object,
 });
 const Comments = mongoose.model("Comments", comment);

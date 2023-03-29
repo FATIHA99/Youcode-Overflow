@@ -5,6 +5,7 @@ const db = require('./config/db')
 const UserRoute = require('./routes/UserRoute')
 const QuestionRoute = require('./routes/QuestionRoutes')
 const AnswerRoute = require('./routes/AnswerRoutes')
+const CommentRoute = require('./routes/CommentRoutes')
 const app = express();
 const path = require('path')
 dotenv.config()
@@ -17,6 +18,7 @@ app.use(express.static('public'))
 app.use('/auth',UserRoute)
 app.use('/',QuestionRoute);
 app.use('/answer',AnswerRoute)
+app.use('/comment',CommentRoute)
 
 
 //  static ressources 
