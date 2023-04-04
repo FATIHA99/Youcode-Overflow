@@ -31,21 +31,31 @@ function displayQuestionOfOneUser(req, res) {
 function addQuestion(req, res) {
   const { body, file } = req;
 
-  if (!file) {
-    return res.status(400).json({ message: "No image file attached" });
+  let fileName = file?.filename
+  if (!fileName) {  
+   fileName = "default_image.jpg"
   }
 
-  Question.create({ ...body, image: file.filename })
+  Question.create({ ...body, image: fileName })
     .then((question) => {
       res.status(201).json({
         message: "Question added successfully",
-        question: question,
+        question,
       });
     })
     .catch((error) => {
-
       res.status(500).json({ message: "Error adding question" });
     });
+}
+
+const getQuestion = (req,res)=>{
+  const id = req.params.id;
+  Question.findOne({_id : id})
+  .then((data)=>{
+      res.send(data)
+  }).catch((error)=>{
+      res.send(error)
+  })
 }
 
 // function deleteQuestion(req, res) {
@@ -72,7 +82,8 @@ const deleteQuestion = async (req, res) => {
         if (err) {
           console.error(err);
         }
-        console.log(`${question.image} has been deleted from public folder`);
+        // console.log(`${question.image} has been deleted from public folder`);
+        console.log(`image has been deleted from public folder`);
       });
     }
 
@@ -104,7 +115,6 @@ function updateQuestion(req, res) {
   Question.findById(id)
     .then((e) => {
       if (e) {
-
         const updateData = { $set: { title, body, language } }
         Question.updateOne({ _id: id }, updateData)
           .then(() => {
@@ -119,4 +129,4 @@ function updateQuestion(req, res) {
 
 
 
-module.exports = { displayQuestion, displayQuestionOfOneUser, addQuestion, deleteQuestion, updateQuestion, getOneQuestion }
+module.exports = { displayQuestion, displayQuestionOfOneUser, addQuestion, deleteQuestion, getQuestion,updateQuestion, getOneQuestion }

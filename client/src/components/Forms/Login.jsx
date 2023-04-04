@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import './style.css'
+import '../style.css'
 import {
   MDBBtn,
   MDBCol,
@@ -15,7 +15,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "toastr/build/toastr.css";
 import 'react-toastify/dist/ReactToastify.css';
 import axios from 'axios';
-import Reset from '../assets/login.gif'
+import Reset from '../../assets/login.gif'
 
 
 function Login() {

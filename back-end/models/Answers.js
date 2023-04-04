@@ -12,10 +12,7 @@ let answer = new mongoose.Schema({
         ref: "Questions"
     },
     user: Object,
-    // comment_id: {
-    //     type: mongoose.Schema.Types.ObjectId,
-    //     ref: 'Comments'
-    // }
+
 })
 const Answers = mongoose.model('Answers', answer)
 module.exports = Answers

@@ -33,10 +33,11 @@ const createUser = async (req, res) => {
         })
         try {
 
-        res.send('your account is created ')
+     
+        res.json({message: 'your account is created'})
 
         } catch {
-            res.send('error creating')
+            res.json({message: 'error creating'})
         }
     }
 }

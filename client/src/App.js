@@ -1,7 +1,7 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes, useParams } from 'react-router-dom'
-import Login from './components/Login'
-import Register from './components/Register'
+import Login from './components/Forms/Login'
+import Register from './components/Forms/Register'
 import ForgetPassword from './components/ForgetPassword'
 import GetStarted from './pages/getStarted'
 import Home from './pages/Home'
@@ -10,6 +10,7 @@ import AddQuestion from './components/Forms/AddQuestion'
 import UserQuestion from './components/UserQuestions'
 import ResetPassword from './components/ResetPassword';
 import QuestionOverView from './components/QuestionOverView';
+import ChildModel from './components/Forms/ChildModal'
 
 function App() {
   return (
@@ -30,6 +31,8 @@ function App() {
           <Route path='/user_questions' element={<UserQuestion />} />
           <Route path='/question_over_view/:id' element={<QuestionOverView />} />
           <Route path="/test/:id" element={<Test />} />
+          <Route path='/update_question/:id' element={<ChildModel />} />
+
         </Route>
 
       </Routes>

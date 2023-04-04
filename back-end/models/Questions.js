@@ -1,5 +1,4 @@
 const mongoose = require('mongoose')
-// ! title _ body _tags[] _ created at _user _ comment_id 
 
 let question = new mongoose.Schema({
     title: String,

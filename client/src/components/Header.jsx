@@ -47,9 +47,9 @@ function Header(props) {
                 </div>
                 <div className='header-right'>
                     <div className='header-right-container'>
-                        <span style={{display: 'flex' ,fontFamily:'fantasy' }}>
-                            <AccountCircleIcon style ={{marginTop:2}} fontSize='large' color="primary"/>
-                            <h3 style={{margin:3 ,  textTransform: 'uppercase' , fontSize:'bold' , color:'#1976D2' }}> {props.username.replace(/"/g, '')}</h3>
+                        <span style={{display: 'flex' ,fontFamily:'inherit'  }}>
+                            <AccountCircleIcon style ={{marginTop:2, marginRight:10}} fontSize='large' color="dark"/>
+                            <h5 style={{marginTop:8 ,  textTransform: 'uppercase'  , color:'black'  }}> {props.username.replace(/"/g, '')}</h5>
                         </span>
   
                         <Link  onClick={logout} className='header-left ms-5 text-info' >
